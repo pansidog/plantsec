@@ -67,7 +67,7 @@ function decrypt(text, key) {
         // Check for exact plant mapping
         if (reversePlantMap[word]) {
             let originalChar = reversePlantMap[word];
-            decrypted += shiftChar(originalChar, -key);
+            decrypted += shiftChar(originalChar, -key); // Shift back using negative key
         } else {
             decrypted += word; // Keep unknown characters as-is (for better consistency)
         }
@@ -87,7 +87,7 @@ function testEncryption() {
 // Test decryption
 function testDecryption() {
     let inputEncryptedText = document.getElementById('inputEncryptedText').value;
-    let key = parseInt(document.getElementById('encryptionKey').value) || 0; // Default shift 0
+    let key = parseInt(document.getElementById('decryptionKey').value) || 0; // Default shift 0
     let decryptedText = decrypt(inputEncryptedText, key);
 
     document.getElementById('decryptedText').value = decryptedText;

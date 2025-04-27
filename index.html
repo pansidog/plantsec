@@ -13,48 +13,51 @@
     </div>
     
     <div class="container">
-        <!-- Encryption Section -->
-        <div class="section">
-            <div class="box">
-                <h3>Encryption</h3>
-                <label for="inputText">Enter text to encrypt:</label>
-                <textarea id="inputText" placeholder="Enter text to encrypt"></textarea>
-                <button onclick="startSpeech('inputText')">🎤 Speak</button><br><br>
+       <!-- Encryption Section -->
+<div class="section">
+    <div class="box">
+        <h3>Encryption</h3>
+        <label for="inputText">Enter text to encrypt:</label>
+        <textarea id="inputText" placeholder="Enter text to encrypt"></textarea>
+        <button onclick="startSpeech('inputText')">🎤 Speak</button><br><br>
 
-                <button onclick="testEncryption()">Encrypt</button>
-            </div>
-            <div class="arrow">
-                <label for="encryptionKey">Enter key for encryption:</label>
-                <input type="number" id="encryptionKey" value="1" min="1"><br><br>
-                <div class="icon">
-                    &#x27A1; 
-                </div>
-            </div>
-            <div class="box">
-                <h3>Encrypted Text</h3>
-                <textarea id="encryptedText" readonly></textarea>
-            </div>
+        <button onclick="testEncryption()">Encrypt</button>
+    </div>
+    <div class="arrow">
+        <label for="encryptionKey">Enter key for encryption:</label>
+        <input type="number" id="encryptionKey" value="1" min="1"><br><br>
+        <div class="icon">
+            &#x27A1; 
         </div>
-    
-        <!-- Decryption Section -->
-        <div class="section">
-            <div class="box">
-                <h3>Decryption</h3>
-                <label for="inputEncryptedText">Enter encrypted text:</label>
-                <textarea id="inputEncryptedText" placeholder="Enter encrypted text"></textarea>
-                <button onclick="startSpeech('inputEncryptedText')">🎤 Speak</button><br><br>
-                <button onclick="testDecryption()">Decrypt</button>
-            </div>
-            <div class="arrow">
-                <div class="icon">
-                    &#x27A1;
-                </div>
-            </div>
-            <div class="box">
-                <h3>Decrypted Text</h3>
-                <textarea id="decryptedText" readonly></textarea>
-            </div>
+    </div>
+    <div class="box">
+        <h3>Encrypted Text</h3>
+        <textarea id="encryptedText" readonly></textarea>
+    </div>
+</div>
+
+<!-- Decryption Section -->
+<div class="section">
+    <div class="box">
+        <h3>Decryption</h3>
+        <label for="inputEncryptedText">Enter encrypted text:</label>
+        <textarea id="inputEncryptedText" placeholder="Enter encrypted text"></textarea>
+        <button onclick="startSpeech('inputEncryptedText')">🎤 Speak</button><br><br>
+        <label for="decryptionKey">Enter key for decryption:</label>
+        <input type="number" id="decryptionKey" value="1" min="1"><br><br>
+        <button onclick="testDecryption()">Decrypt</button>
+    </div>
+    <div class="arrow">
+        <div class="icon">
+            &#x27A1;
         </div>
+    </div>
+    <div class="box">
+        <h3>Decrypted Text</h3>
+        <textarea id="decryptedText" readonly></textarea>
+    </div>
+</div>
+
     </div>
     
 <script src="assets/js/script.js"></script>
