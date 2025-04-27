@@ -18,38 +18,43 @@ const plantMap = {
     'p': 'Petunia', 'q': 'Queen Anne\'s Lace', 'r': 'Ranunculus', 's': 'Snapdragon', 't': 'Thyme',
     'u': 'Upland Cress', 'v': 'Violet', 'w': 'Wisteria', 'x': 'Xerophilous', 'y': 'Yellow Bell',
     'z': 'Zucchini'
-    // 🔥 No numbers or symbols anymore! You can add them later safely if you want, but no conflicts!
 };
 
 // Reverse map for decryption
-const reversePlantMap = Object.fromEntries(Object.entries(plantMap).map(([key, value]) => [value, key]));
+const reversePlantMap = Object.fromEntries(
+    Object.entries(plantMap).map(([key, value]) => [value, key])
+);
 
 // Helper function to shift characters based on the key
 function shiftChar(c, shift) {
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-    const idx = alphabet.indexOf(c.toLowerCase());
-    if (idx === -1) return c; // Not a letter
+    const lowerAlphabet = 'abcdefghijklmnopqrstuvwxyz';
+    const upperAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    let shiftedIdx = (idx + shift) % 26;
-    if (shiftedIdx < 0) shiftedIdx += 26;
+    let isLower = lowerAlphabet.includes(c);
+    let isUpper = upperAlphabet.includes(c);
 
-    let shiftedChar = alphabet[shiftedIdx];
-    return c === c.toUpperCase() ? shiftedChar.toUpperCase() : shiftedChar;
+    if (!isLower && !isUpper) return c; // Not a letter, return as is
+
+    const alphabet = isLower ? lowerAlphabet : upperAlphabet;
+    let idx = alphabet.indexOf(c);
+    let shiftedIdx = (idx + shift + 26) % 26;
+    return alphabet[shiftedIdx];
 }
 
 // Encrypt function using plant names and shift key
 function encrypt(text, key) {
-    let encrypted = '';
+    let encrypted = [];
     for (let i = 0; i < text.length; i++) {
         let char = text[i];
         let shiftedChar = shiftChar(char, key);
+
         if (plantMap[shiftedChar]) {
-            encrypted += plantMap[shiftedChar] + ' ';
+            encrypted.push(plantMap[shiftedChar]);
         } else {
-            encrypted += char + ' '; // Preserve unknown characters
+            encrypted.push(shiftedChar); // Keep unknown characters (symbols, numbers)
         }
     }
-    return encrypted.trim();
+    return encrypted.join(' ');
 }
 
 // Decrypt function
@@ -62,7 +67,7 @@ function decrypt(text, key) {
             let originalChar = reversePlantMap[word];
             decrypted += shiftChar(originalChar, -key);
         } else {
-            decrypted += '?'; // Unknown mapping
+            decrypted += word; // Keep unknown characters as-is (for better consistency)
         }
     }
     return decrypted;
