@@ -26,24 +26,17 @@ const plantMap = {
 const reversePlantMap = Object.fromEntries(Object.entries(plantMap).map(([key, value]) => [value, key]));
 
 // Helper function to shift characters based on the key
-function shiftChar(char, key) {
-    const isUpperCase = char >= 'A' && char <= 'Z';
-    const isLowerCase = char >= 'a' && char <= 'z';
-    const isDigit = char >= '0' && char <= '9';
+function shiftChar(c, shift) {
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+    const idx = alphabet.indexOf(c.toLowerCase());
+    if (idx === -1) return c; // not a letter
 
-    if (isUpperCase) {
-        let code = ((char.charCodeAt(0) - 65 + key + 26) % 26) + 65;
-        return String.fromCharCode(code);
-    } else if (isLowerCase) {
-        let code = ((char.charCodeAt(0) - 97 + key + 26) % 26) + 97;
-        return String.fromCharCode(code);
-    } else if (isDigit) {
-        let code = ((char.charCodeAt(0) - 48 + key + 10) % 10) + 48;
-        return String.fromCharCode(code);
-    }
-    return char; // Return the character unchanged if not alphanumeric
+    let shiftedIdx = (idx + shift) % 26;
+    if (shiftedIdx < 0) shiftedIdx += 26;
+
+    let shiftedChar = alphabet[shiftedIdx];
+    return c === c.toUpperCase() ? shiftedChar.toUpperCase() : shiftedChar;
 }
-
 
 // Encrypt function using plant names as substitutions and key
 function encrypt(text, key) {
@@ -58,15 +51,17 @@ function encrypt(text, key) {
 
 // Decrypt function using reverse plant names and key
 function decrypt(text, key) {
+    const words = text.trim().split(/\s+/);
     let decrypted = '';
-    const words = text.trim().split(/\s+/);  // Split by space to extract plant names
-    for (let i = 0; i < words.length; i++) {
-        let originalChar = reversePlantMap[words[i]] || words[i]; // Get the original character from the reverse map
-        decrypted += shiftChar(originalChar, -key); // Reverse the shift using the negative key
-    }
-    return decrypted; // Return the decrypted text
-}
 
+    for (let word of words) {
+        if (reversePlantMap[word]) {
+            let originalChar = reversePlantMap[word]; // get mapped letter
+            decrypted += shiftChar(originalChar, -key); // reverse shift
+        }
+    }
+    return decrypted;
+}
 // Test encryption
 function testEncryption() {
     let inputText = document.getElementById('inputText').value;
