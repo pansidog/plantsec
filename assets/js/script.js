@@ -48,6 +48,7 @@ function encrypt(text, key) {
         let char = text[i];
         let shiftedChar = shiftChar(char, key);
 
+        // Use the plantMap for encryption
         if (plantMap[shiftedChar]) {
             encrypted.push(plantMap[shiftedChar]);
         } else {
@@ -63,6 +64,7 @@ function decrypt(text, key) {
     let decrypted = '';
 
     for (let word of words) {
+        // Check for exact plant mapping
         if (reversePlantMap[word]) {
             let originalChar = reversePlantMap[word];
             decrypted += shiftChar(originalChar, -key);
