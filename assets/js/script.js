@@ -32,14 +32,18 @@ function shiftChar(char, key) {
     const isDigit = char >= '0' && char <= '9';
 
     if (isUpperCase) {
-        return String.fromCharCode(((char.charCodeAt(0) - 65 + key) % 26) + 65);
+        let code = ((char.charCodeAt(0) - 65 + key + 26) % 26) + 65;
+        return String.fromCharCode(code);
     } else if (isLowerCase) {
-        return String.fromCharCode(((char.charCodeAt(0) - 97 + key) % 26) + 97);
+        let code = ((char.charCodeAt(0) - 97 + key + 26) % 26) + 97;
+        return String.fromCharCode(code);
     } else if (isDigit) {
-        return String.fromCharCode(((char.charCodeAt(0) - 48 + key) % 10) + 48);
+        let code = ((char.charCodeAt(0) - 48 + key + 10) % 10) + 48;
+        return String.fromCharCode(code);
     }
     return char; // Return the character unchanged if not alphanumeric
 }
+
 
 // Encrypt function using plant names as substitutions and key
 function encrypt(text, key) {
@@ -55,7 +59,7 @@ function encrypt(text, key) {
 // Decrypt function using reverse plant names and key
 function decrypt(text, key) {
     let decrypted = '';
-    const words = text.split(' '); // Split by space to extract plant names
+    const words = text.trim().split(/\s+/);  // Split by space to extract plant names
     for (let i = 0; i < words.length; i++) {
         let originalChar = reversePlantMap[words[i]] || words[i]; // Get the original character from the reverse map
         decrypted += shiftChar(originalChar, -key); // Reverse the shift using the negative key
